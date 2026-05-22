@@ -3,6 +3,7 @@
 Korean public-sector/B2G proposal presentation skill for turning proposal PDFs, evaluation criteria, design systems, and templates into source-grounded slide plans, PowerPoint prompts, per-slide image prompts, and QA checklists.
 
 The skill is designed to work with both Codex and Claude-compatible Agent Skills.
+It also includes a ChatGPT Custom GPT package under `gpt/`.
 
 ## Repository Structure
 
@@ -12,8 +13,12 @@ rfp-b2g-ppt-maker/
 ├── prompts/
 ├── examples/
 ├── assets/
-└── agents/
-    └── openai.yaml
+├── agents/
+│   └── openai.yaml
+└── gpt/
+    ├── instructions.md
+    ├── conversation_starters.md
+    └── knowledge/
 ```
 
 - `SKILL.md`: shared Agent Skills entrypoint
@@ -21,6 +26,7 @@ rfp-b2g-ppt-maker/
 - `examples/`: compact usage examples
 - `assets/`: fallback Korean B2G design system notes
 - `agents/openai.yaml`: Codex UI metadata; exclude this from Claude.ai ZIP uploads if desired
+- `gpt/`: ChatGPT Custom GPT instructions, conversation starters, and knowledge file
 
 ## Install For Codex
 
@@ -73,6 +79,42 @@ curl -fsSL https://raw.githubusercontent.com/GagaKor/rfp-b2g-ppt-maker/master/in
 curl -fsSL https://raw.githubusercontent.com/GagaKor/rfp-b2g-ppt-maker/master/install.sh | bash -s -- uninstall both
 ```
 
+## Prepare For ChatGPT Custom GPT
+
+ChatGPT Custom GPTs do not support command-line installation into your account. This repo provides a GPT Builder package that can be prepared locally, then copied/uploaded in the ChatGPT GPT editor.
+
+Prepare the GPT Builder files:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/GagaKor/rfp-b2g-ppt-maker/master/install.sh | bash -s -- gpt
+```
+
+This creates:
+
+```text
+rfp-b2g-ppt-maker-gpt/
+├── instructions.md
+├── conversation_starters.md
+└── knowledge/
+    └── rfp-b2g-ppt-maker-knowledge.md
+```
+
+Create the GPT:
+
+1. Open `https://chatgpt.com/gpts/editor`.
+2. Set the GPT name to `rfp-b2g-ppt-maker`.
+3. Paste `rfp-b2g-ppt-maker-gpt/instructions.md` into Instructions.
+4. Upload files from `rfp-b2g-ppt-maker-gpt/knowledge/` as Knowledge.
+5. Add starters from `rfp-b2g-ppt-maker-gpt/conversation_starters.md`.
+6. Enable file upload, data analysis, image generation, and canvas if available for your plan and workflow.
+7. Test with the example request in the Usage section.
+
+Remove the local GPT Builder package:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/GagaKor/rfp-b2g-ppt-maker/master/install.sh | bash -s -- uninstall gpt
+```
+
 ## Package For Claude.ai
 
 Claude.ai custom skill uploads use a ZIP file containing the skill folder as the ZIP root. To exclude Codex-only UI metadata:
@@ -105,6 +147,12 @@ Claude.ai:
 
 ```text
 Use the rfp-b2g-ppt-maker skill to create a Korean B2G proposal presentation from the attached proposal PDF, evaluation criteria, and design system.
+```
+
+ChatGPT Custom GPT:
+
+```text
+Create a Korean B2G proposal presentation from the attached proposal PDF, evaluation criteria, and design system.
 ```
 
 Example request:

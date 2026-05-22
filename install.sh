@@ -21,14 +21,15 @@ esac
 usage() {
   cat <<'EOF'
 Usage:
-  install.sh [codex|claude|both]
-  install.sh install [codex|claude|both]
-  install.sh uninstall [codex|claude|both]
+  install.sh [codex|claude|gpt|both|all]
+  install.sh install [codex|claude|gpt|both|all]
+  install.sh uninstall [codex|claude|gpt|both|all]
 
 Environment:
   RFP_B2G_PPT_MAKER_REPO  Git repository URL
   RFP_B2G_PPT_MAKER_REF   Git ref to install from, default: master
   CODEX_HOME              Codex home, default: ~/.codex
+  RFP_B2G_PPT_MAKER_GPT_DEST  GPT Builder package output directory
 EOF
 }
 
@@ -68,6 +69,51 @@ uninstall_skill() {
   fi
 }
 
+install_gpt_package() {
+  local dest_root="${RFP_B2G_PPT_MAKER_GPT_DEST:-$PWD/rfp-b2g-ppt-maker-gpt}"
+  local tmp_dir
+
+  tmp_dir="$(mktemp -d)"
+
+  if ! git clone --depth 1 --branch "$REF" "$REPO_URL" "$tmp_dir/repo" >/dev/null; then
+    rm -rf "$tmp_dir"
+    exit 1
+  fi
+
+  if [[ ! -f "$tmp_dir/repo/gpt/instructions.md" ]]; then
+    echo "Missing gpt/instructions.md in $REPO_URL at ref $REF" >&2
+    rm -rf "$tmp_dir"
+    exit 1
+  fi
+
+  rm -rf "$dest_root"
+  mkdir -p "$dest_root"
+  cp -R "$tmp_dir/repo/gpt/." "$dest_root/"
+  rm -rf "$tmp_dir"
+
+  cat <<EOF
+Prepared ChatGPT GPT Builder package at $dest_root
+
+Create the GPT manually in ChatGPT:
+1. Open https://chatgpt.com/gpts/editor
+2. Set name: rfp-b2g-ppt-maker
+3. Paste $dest_root/instructions.md into Instructions
+4. Upload files from $dest_root/knowledge/ as Knowledge
+5. Add conversation starters from $dest_root/conversation_starters.md
+EOF
+}
+
+uninstall_gpt_package() {
+  local dest_root="${RFP_B2G_PPT_MAKER_GPT_DEST:-$PWD/rfp-b2g-ppt-maker-gpt}"
+
+  if [[ -d "$dest_root" ]]; then
+    rm -rf "$dest_root"
+    echo "Removed GPT Builder package at $dest_root"
+  else
+    echo "No GPT Builder package found at $dest_root"
+  fi
+}
+
 run_for_target() {
   local target="$1"
   local action="$2"
@@ -97,6 +143,18 @@ run_for_target() {
       run_for_target codex "$action"
       run_for_target claude "$action"
       ;;
+    all)
+      run_for_target codex "$action"
+      run_for_target claude "$action"
+      run_for_target gpt "$action"
+      ;;
+    gpt)
+      if [[ "$action" == "install" ]]; then
+        install_gpt_package
+      else
+        uninstall_gpt_package
+      fi
+      ;;
     -h|--help|help)
       usage
       ;;
@@ -108,7 +166,7 @@ run_for_target() {
 }
 
 case "$TARGET" in
-  codex|claude|both|-h|--help|help)
+  codex|claude|gpt|both|all|-h|--help|help)
     run_for_target "$TARGET" "$ACTION"
     ;;
   *)
