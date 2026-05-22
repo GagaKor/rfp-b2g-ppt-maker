@@ -5,6 +5,10 @@
 ```
 
 ```text
+첨부한 제안서 PDF와 평가기준을 기준으로 세로형 A4 제안서 문서 이미지를 만들어줘. 한 이미지에는 한 페이지만 포함하고, 도식화와 설명글, 표, 원문 근거를 포함해줘.
+```
+
+```text
 Use this GPT to extract source evidence and quantitative metrics from the attached proposal, then create an evaluation-aligned Korean B2G slide plan and final slide images.
 ```
 
