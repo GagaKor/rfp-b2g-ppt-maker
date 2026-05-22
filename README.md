@@ -207,12 +207,6 @@ ChatGPT Custom GPT:
 Create a Korean B2G proposal presentation from the attached proposal PDF, evaluation criteria, and design system. Final output should include one separate 16:9 PPT-style slide image per slide. Do not combine multiple slides into one image.
 ```
 
-ChatGPT Custom GPT, portrait proposal format:
-
-```text
-첨부한 제안서 PDF와 평가기준을 기준으로 세로형 A4 제안서 문서 이미지를 만들어줘. 한 이미지에는 한 페이지만 포함하고, 도식화와 설명글, 표, 원문 근거를 포함해줘.
-```
-
 Example request:
 
 ```text
@@ -233,25 +227,6 @@ Example request:
 - 이미지 생성 여부: 예
 - 최종 산출물: 장표별 16:9 PPT 슬라이드 이미지
 - 이미지 생성 규칙: 한 이미지에는 한 장표만 포함하고, 여러 장표를 하나의 이미지로 합치지 말 것
-
-Portrait proposal example:
-
-```text
-아래 자료를 기준으로 세로형 제안서 문서 이미지를 만들어줘.
-
-필요 자료:
-1. 제안서 원문 PDF
-2. 평가기준 PDF 또는 평가항목 텍스트
-3. 디자인 시스템 HTML/PDF/PPT
-
-작성 대상:
-- 문서 형식: 세로형 A4 제안서
-- 평가항목: 기술 및 기능 - 사업추진내용
-- 원하는 페이지 수: 5페이지
-- 최종 산출물: 페이지별 세로형 제안서 이미지
-- 이미지 생성 규칙: 한 이미지에는 한 페이지만 포함하고, 여러 페이지를 하나의 이미지로 합치지 말 것
-- 구성 요구: 설명글, 도식화, 표, 요구사항 대응, 원문 근거 포함
-```
 
 작업 순서:
 1. 자료 확인
