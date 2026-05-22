@@ -1,0 +1,4 @@
+interface:
+  display_name: "RFP B2G PPT Maker"
+  short_description: "Build evaluation-aligned public proposal decks"
+  default_prompt: "Use $rfp-b2g-ppt-maker to turn proposal PDFs, evaluation criteria, and a design system into a Korean B2G presentation deck."
