@@ -133,6 +133,10 @@ When the user asks for final slide images, first write or infer this image brief
 Output rule:
 
 - Generate one 16:9 PPT-style slide image per slide.
+- Each image generation must contain exactly one slide.
+- Never combine multiple slides into one image.
+- Never create a contact sheet, storyboard, thumbnail grid, overview board, multi-panel summary, or all-slides-at-once image.
+- If the deck has 10 slides, produce 10 separate images.
 - Use 1920x1080 aspect and composition.
 - Label each generated image in the response with slide number and slide title.
 - Keep unsupported metrics out of the image.
@@ -142,7 +146,10 @@ Output rule:
 ## Per-Slide Image Prompt Template
 
 ```text
-Create a single 16:9 PowerPoint slide image, 1920x1080.
+Create exactly ONE standalone 16:9 PowerPoint slide image for Slide [N] only, 1920x1080.
+
+Do not include any other slides, thumbnails, panels, previews, contact sheets, or grids.
+The canvas must contain only Slide [N].
 
 Project:
 [프로젝트명]
@@ -177,6 +184,8 @@ Design style:
 Negative prompt:
 - no fake futuristic AI marketing imagery
 - no excessive 3D, neon, glassmorphism, or decorative blobs
+- no contact sheet, no storyboard, no thumbnail grid, no multi-slide overview
+- no multiple slides on one canvas
 - no unreadable Korean text
 - no invented metrics, logos, maps, or UI screenshots
 - no crowded overlapping labels
