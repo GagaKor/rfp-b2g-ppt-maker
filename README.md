@@ -10,6 +10,7 @@ It also includes a ChatGPT Custom GPT package under `gpt/`.
 ```text
 rfp-b2g-ppt-maker/
 ├── SKILL.md
+├── claude/
 ├── prompts/
 ├── examples/
 ├── assets/
@@ -22,6 +23,7 @@ rfp-b2g-ppt-maker/
 ```
 
 - `SKILL.md`: shared Agent Skills entrypoint
+- `claude/`: Claude.ai and Cowork upload/share guide
 - `prompts/`: intake, slide plan, deck prompt, image prompt, and review templates
 - `examples/`: compact usage examples
 - `assets/`: fallback Korean B2G design system notes
@@ -79,6 +81,60 @@ curl -fsSL https://raw.githubusercontent.com/GagaKor/rfp-b2g-ppt-maker/master/in
 curl -fsSL https://raw.githubusercontent.com/GagaKor/rfp-b2g-ppt-maker/master/install.sh | bash -s -- uninstall both
 ```
 
+## Prepare For Claude.ai And Cowork
+
+Claude.ai and Cowork use uploaded or shared Skills, not local command-line installation into your account. This repo can prepare the upload ZIP and a Cowork setup guide.
+
+Prepare the Claude.ai/Cowork package:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/GagaKor/rfp-b2g-ppt-maker/master/install.sh | bash -s -- claude-ai
+```
+
+Equivalent Cowork alias:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/GagaKor/rfp-b2g-ppt-maker/master/install.sh | bash -s -- cowork
+```
+
+This creates:
+
+```text
+rfp-b2g-ppt-maker-claude/
+├── rfp-b2g-ppt-maker-claude.zip
+└── claude_cowork_guide.md
+```
+
+Upload to Claude.ai:
+
+1. Ensure code execution and file creation are enabled.
+2. Open Customize > Skills.
+3. Click the "+" button, then create or upload a skill.
+4. Upload `rfp-b2g-ppt-maker-claude/rfp-b2g-ppt-maker-claude.zip`.
+5. Enable the skill.
+6. Test with the Claude.ai request in the Usage section.
+
+Use in Cowork:
+
+1. Enable the skill in Claude, or install it from your organization's Skills directory if it has been shared.
+2. Open Cowork.
+3. Ask Cowork to use `rfp-b2g-ppt-maker` for the proposal deck task.
+
+For Team and Enterprise sharing:
+
+1. Ask an owner to enable Skill sharing in Organization settings > Skills.
+2. Open Customize > Skills.
+3. Open `rfp-b2g-ppt-maker`.
+4. Click Share.
+5. Share with specific colleagues or the entire organization.
+6. In Cowork, users can open Customize, browse the directory, click Skills, and install the shared skill.
+
+Remove the local Claude.ai/Cowork package:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/GagaKor/rfp-b2g-ppt-maker/master/install.sh | bash -s -- uninstall claude-ai
+```
+
 ## Prepare For ChatGPT Custom GPT
 
 ChatGPT Custom GPTs do not support command-line installation into your account. This repo provides a GPT Builder package that can be prepared locally, then copied/uploaded in the ChatGPT GPT editor.
@@ -115,18 +171,6 @@ Remove the local GPT Builder package:
 curl -fsSL https://raw.githubusercontent.com/GagaKor/rfp-b2g-ppt-maker/master/install.sh | bash -s -- uninstall gpt
 ```
 
-## Package For Claude.ai
-
-Claude.ai custom skill uploads use a ZIP file containing the skill folder as the ZIP root. To exclude Codex-only UI metadata:
-
-```bash
-zip -qr rfp-b2g-ppt-maker-claude.zip rfp-b2g-ppt-maker -x 'rfp-b2g-ppt-maker/agents/*'
-```
-
-Upload the ZIP in Claude.ai from Customize or Settings > Skills, then enable it.
-
-Claude.ai does not install arbitrary GitHub-hosted skills from a chat command. Use the ZIP upload flow, or publish the ZIP as a GitHub Release asset for users to download and upload.
-
 ## Usage
 
 Skills can be invoked automatically when the request matches the `description` in `SKILL.md`, but explicit invocation is more reliable.
@@ -147,6 +191,12 @@ Claude.ai:
 
 ```text
 Use the rfp-b2g-ppt-maker skill to create a Korean B2G proposal presentation from the attached proposal PDF, evaluation criteria, and design system.
+```
+
+Cowork:
+
+```text
+Use the rfp-b2g-ppt-maker skill. Review the attached proposal PDF, evaluation criteria, and design system, then create an evaluation-aligned Korean B2G slide plan with source evidence, quantitative metrics, deck prompt, image prompts, and a QA checklist.
 ```
 
 ChatGPT Custom GPT:
@@ -210,4 +260,4 @@ git tag v0.1.0
 git push origin v0.1.0
 ```
 
-Attach `rfp-b2g-ppt-maker-claude.zip` to the GitHub release for Claude.ai users.
+Attach `rfp-b2g-ppt-maker-claude.zip` to the GitHub release for Claude.ai and Cowork users.
