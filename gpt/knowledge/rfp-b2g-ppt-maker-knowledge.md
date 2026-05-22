@@ -126,10 +126,65 @@ Final requirements:
 - Maintain the provided design system consistently.
 ```
 
+## Output Format Selection
+
+Use `landscape-presentation mode` for:
+
+- 발표자료
+- 발표용
+- PPT
+- deck
+- slide
+- screen/projector delivery
+
+Use `portrait-proposal mode` for:
+
+- 제안서
+- 보고서
+- 문서형
+- 세로형
+- A4
+- proposal document
+- evaluator reading material
+- print/PDF page
+
+Landscape presentation pages should be visually concise and presentation-like.
+
+Portrait proposal pages should be document-like:
+
+- Vertical A4-style page ratio
+- More explanatory text blocks
+- Section headings and subheadings
+- Tables and requirement-response matrices
+- Architecture diagrams with captions
+- Source-note areas
+- Dense but readable proposal-document layout
+- Less hero-style presentation composition
+
+## Per-Slide Landscape Image Output Template
+
+When the user asks for final slide images, first write or infer this image brief, then generate the image instead of stopping at the prompt.
+
+Output rule:
+
+- Generate one 16:9 PPT-style slide image per slide.
+- Each image generation must contain exactly one slide.
+- Never combine multiple slides into one image.
+- Never create a contact sheet, storyboard, thumbnail grid, overview board, multi-panel summary, or all-slides-at-once image.
+- If the deck has 10 slides, produce 10 separate images.
+- Use 1920x1080 aspect and composition.
+- Label each generated image in the response with slide number and slide title.
+- Keep unsupported metrics out of the image.
+- If Korean text rendering quality is uncertain, use concise Korean labels only and keep detailed text in the accompanying slide notes.
+- If the image generation capability is disabled, say so explicitly and provide the prompt below as a fallback.
+
 ## Per-Slide Image Prompt Template
 
 ```text
-Create a single 16:9 PowerPoint slide image, 1920x1080.
+Create exactly ONE standalone 16:9 PowerPoint slide image for Slide [N] only, 1920x1080.
+
+Do not include any other slides, thumbnails, panels, previews, contact sheets, or grids.
+The canvas must contain only Slide [N].
 
 Project:
 [프로젝트명]
@@ -164,9 +219,69 @@ Design style:
 Negative prompt:
 - no fake futuristic AI marketing imagery
 - no excessive 3D, neon, glassmorphism, or decorative blobs
+- no contact sheet, no storyboard, no thumbnail grid, no multi-slide overview
+- no multiple slides on one canvas
 - no unreadable Korean text
 - no invented metrics, logos, maps, or UI screenshots
 - no crowded overlapping labels
+```
+
+## Per-Page Portrait Proposal Image Output Template
+
+When the user asks for 제안서, 보고서, 문서형, 세로형, or A4 output, first write or infer this portrait page brief, then generate the page image instead of stopping at the prompt.
+
+Output rule:
+
+- Generate one portrait proposal-document page image per page.
+- Each image generation must contain exactly one page.
+- Never combine multiple pages into one image.
+- Never create a contact sheet, page spread, thumbnail grid, overview board, multi-panel summary, or all-pages-at-once image.
+- If the document has 10 pages, produce 10 separate images.
+- Use a portrait A4-like document composition.
+- Label each generated image in the response with page number and page title.
+- Keep unsupported metrics out of the image.
+- If Korean text rendering quality is uncertain, use concise labels in the image and provide detailed Korean page text below it.
+
+## Per-Page Portrait Proposal Image Prompt Template
+
+```text
+Create exactly ONE standalone portrait A4-style proposal document page image for Page [N] only.
+
+Do not include any other pages, slides, thumbnails, panels, previews, contact sheets, page spreads, or grids.
+The canvas must contain only Page [N].
+
+Project:
+[프로젝트명]
+
+Document section:
+[제안서 섹션명]
+
+Page title:
+[페이지 제목]
+
+Page purpose:
+[평가요소 대응 또는 설명 목적]
+
+Layout:
+Vertical A4-style proposal document page. Use top title band, structured explanatory paragraphs, diagram/callout area, metric or evidence table, and bottom source-note area. Dense but readable Korean government proposal style.
+
+Main content:
+[설명글, 도식, 표, 요구사항 대응 내용, 정량 지표, 원문 근거]
+
+Design style:
+- Korean public-sector B2G proposal document
+- Portrait page, white background, navy section header, restrained red-orange-yellow accents
+- Document-like layout, not a presentation slide
+- Tables, captions, callout boxes, architecture diagrams, source notes
+- Clean margins and readable hierarchy
+
+Negative prompt:
+- no landscape slide layout
+- no hero slide composition
+- no contact sheet, no page spread, no thumbnail grid, no multi-page overview
+- no multiple pages on one canvas
+- no fake numbers or unsupported claims
+- no unreadable Korean body text
 ```
 
 ## Review Checklist
@@ -267,4 +382,5 @@ Avoid:
 - 평가항목: 기술 및 기능 - 사업추진내용
 - 원하는 장표 수: 10장
 - 이미지 생성 여부: 예
+- 최종 산출물: 장표별 16:9 PPT 슬라이드 이미지
 ```
