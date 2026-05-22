@@ -204,7 +204,7 @@ Use the rfp-b2g-ppt-maker skill. Review the attached proposal PDF, evaluation cr
 ChatGPT Custom GPT:
 
 ```text
-Create a Korean B2G proposal presentation from the attached proposal PDF, evaluation criteria, and design system. Final output should include one separate 16:9 PPT-style slide image per slide. Do not combine multiple slides into one image.
+Create a Korean B2G proposal presentation from the attached proposal PDF, evaluation criteria, and design system. Final output should include one 16:9 PPT-style slide image per slide.
 ```
 
 Example request:
@@ -226,7 +226,6 @@ Example request:
 - 원하는 장표 수: 10장
 - 이미지 생성 여부: 예
 - 최종 산출물: 장표별 16:9 PPT 슬라이드 이미지
-- 이미지 생성 규칙: 한 이미지에는 한 장표만 포함하고, 여러 장표를 하나의 이미지로 합치지 말 것
 
 작업 순서:
 1. 자료 확인
