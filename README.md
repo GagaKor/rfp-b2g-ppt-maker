@@ -163,6 +163,8 @@ Create the GPT:
 4. Upload files from `rfp-b2g-ppt-maker-gpt/knowledge/` as Knowledge.
 5. Add starters from `rfp-b2g-ppt-maker-gpt/conversation_starters.md`.
 6. Enable file upload, data analysis, image generation, and canvas if available for your plan and workflow.
+   - For final slide images, Image Generation must be enabled.
+   - For deterministic slide files or text-heavy slide rendering, Code Interpreter & Data Analysis should be enabled.
 7. Test with the example request in the Usage section.
 
 Remove the local GPT Builder package:
@@ -202,7 +204,7 @@ Use the rfp-b2g-ppt-maker skill. Review the attached proposal PDF, evaluation cr
 ChatGPT Custom GPT:
 
 ```text
-Create a Korean B2G proposal presentation from the attached proposal PDF, evaluation criteria, and design system.
+Create a Korean B2G proposal presentation from the attached proposal PDF, evaluation criteria, and design system. Final output should include one 16:9 PPT-style slide image per slide.
 ```
 
 Example request:
@@ -223,6 +225,7 @@ Example request:
 - 평가항목: 기술 및 기능 - 사업추진내용
 - 원하는 장표 수: 10장
 - 이미지 생성 여부: 예
+- 최종 산출물: 장표별 16:9 PPT 슬라이드 이미지
 
 작업 순서:
 1. 자료 확인

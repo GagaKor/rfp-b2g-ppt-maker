@@ -126,6 +126,19 @@ Final requirements:
 - Maintain the provided design system consistently.
 ```
 
+## Per-Slide Image Output Template
+
+When the user asks for final slide images, first write or infer this image brief, then generate the image instead of stopping at the prompt.
+
+Output rule:
+
+- Generate one 16:9 PPT-style slide image per slide.
+- Use 1920x1080 aspect and composition.
+- Label each generated image in the response with slide number and slide title.
+- Keep unsupported metrics out of the image.
+- If Korean text rendering quality is uncertain, use concise Korean labels only and keep detailed text in the accompanying slide notes.
+- If the image generation capability is disabled, say so explicitly and provide the prompt below as a fallback.
+
 ## Per-Slide Image Prompt Template
 
 ```text
@@ -267,4 +280,5 @@ Avoid:
 - 평가항목: 기술 및 기능 - 사업추진내용
 - 원하는 장표 수: 10장
 - 이미지 생성 여부: 예
+- 최종 산출물: 장표별 16:9 PPT 슬라이드 이미지
 ```
