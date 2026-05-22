@@ -24,6 +24,14 @@ rfp-b2g-ppt-maker/
 
 ## Install For Codex
 
+From GitHub:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/GagaKor/rfp-b2g-ppt-maker/master/install.sh | bash -s -- codex
+```
+
+Or from a local checkout:
+
 ```bash
 mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
 rm -rf "${CODEX_HOME:-$HOME/.codex}/skills/rfp-b2g-ppt-maker"
@@ -37,6 +45,14 @@ Use $rfp-b2g-ppt-maker to turn this proposal PDF, evaluation criteria, and desig
 ```
 
 ## Install For Claude Code
+
+From GitHub:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/GagaKor/rfp-b2g-ppt-maker/master/install.sh | bash -s -- claude
+```
+
+Or from a local checkout:
 
 ```bash
 mkdir -p ~/.claude/skills
@@ -60,10 +76,12 @@ zip -qr rfp-b2g-ppt-maker-claude.zip rfp-b2g-ppt-maker -x 'rfp-b2g-ppt-maker/age
 
 Upload the ZIP in Claude.ai from Customize or Settings > Skills, then enable it.
 
+Claude.ai does not install arbitrary GitHub-hosted skills from a chat command. Use the ZIP upload flow, or publish the ZIP as a GitHub Release asset for users to download and upload.
+
 ## Publish With Git
 
 ```bash
-git add README.md rfp-b2g-ppt-maker
+git add README.md install.sh rfp-b2g-ppt-maker
 git commit -m "Add rfp-b2g-ppt-maker agent skill"
 git push -u origin HEAD
 ```
