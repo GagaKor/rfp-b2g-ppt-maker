@@ -44,6 +44,12 @@ Use:
 Use $rfp-b2g-ppt-maker to turn this proposal PDF, evaluation criteria, and design system into a Korean B2G presentation deck.
 ```
 
+Uninstall:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/GagaKor/rfp-b2g-ppt-maker/master/install.sh | bash -s -- uninstall codex
+```
+
 ## Install For Claude Code
 
 From GitHub:
@@ -64,6 +70,19 @@ Use:
 
 ```text
 /rfp-b2g-ppt-maker
+```
+
+Uninstall:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/GagaKor/rfp-b2g-ppt-maker/master/install.sh | bash -s -- uninstall claude
+```
+
+Install or uninstall both Codex and Claude Code:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/GagaKor/rfp-b2g-ppt-maker/master/install.sh | bash -s -- both
+curl -fsSL https://raw.githubusercontent.com/GagaKor/rfp-b2g-ppt-maker/master/install.sh | bash -s -- uninstall both
 ```
 
 ## Package For Claude.ai

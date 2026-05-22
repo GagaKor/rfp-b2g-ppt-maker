@@ -4,12 +4,26 @@ set -euo pipefail
 SKILL_NAME="rfp-b2g-ppt-maker"
 REPO_URL="${RFP_B2G_PPT_MAKER_REPO:-https://github.com/GagaKor/rfp-b2g-ppt-maker.git}"
 REF="${RFP_B2G_PPT_MAKER_REF:-master}"
+ACTION="install"
 TARGET="${1:-both}"
+
+case "${1:-}" in
+  uninstall|remove|delete)
+    ACTION="uninstall"
+    TARGET="${2:-both}"
+    ;;
+  install)
+    ACTION="install"
+    TARGET="${2:-both}"
+    ;;
+esac
 
 usage() {
   cat <<'EOF'
 Usage:
   install.sh [codex|claude|both]
+  install.sh install [codex|claude|both]
+  install.sh uninstall [codex|claude|both]
 
 Environment:
   RFP_B2G_PPT_MAKER_REPO  Git repository URL
@@ -23,37 +37,79 @@ install_skill() {
   local tmp_dir
 
   tmp_dir="$(mktemp -d)"
-  trap 'rm -rf "$tmp_dir"' RETURN
 
-  git clone --depth 1 --branch "$REF" "$REPO_URL" "$tmp_dir/repo" >/dev/null
+  if ! git clone --depth 1 --branch "$REF" "$REPO_URL" "$tmp_dir/repo" >/dev/null; then
+    rm -rf "$tmp_dir"
+    exit 1
+  fi
 
   if [[ ! -f "$tmp_dir/repo/$SKILL_NAME/SKILL.md" ]]; then
     echo "Missing $SKILL_NAME/SKILL.md in $REPO_URL at ref $REF" >&2
+    rm -rf "$tmp_dir"
     exit 1
   fi
 
   mkdir -p "$dest_root"
   rm -rf "$dest_root/$SKILL_NAME"
   cp -R "$tmp_dir/repo/$SKILL_NAME" "$dest_root/$SKILL_NAME"
+  rm -rf "$tmp_dir"
   echo "Installed $SKILL_NAME to $dest_root/$SKILL_NAME"
 }
 
+uninstall_skill() {
+  local dest_root="$1"
+  local skill_dir="$dest_root/$SKILL_NAME"
+
+  if [[ -d "$skill_dir" ]]; then
+    rm -rf "$skill_dir"
+    echo "Removed $skill_dir"
+  else
+    echo "Not installed at $skill_dir"
+  fi
+}
+
+run_for_target() {
+  local target="$1"
+  local action="$2"
+  local codex_root="${CODEX_HOME:-$HOME/.codex}/skills"
+  local claude_root="$HOME/.claude/skills"
+
+  case "$target" in
+    codex)
+      if [[ "$action" == "install" ]]; then
+        install_skill "$codex_root"
+        echo "Restart Codex to pick up the new skill."
+      else
+        uninstall_skill "$codex_root"
+        echo "Restart Codex if the removed skill still appears."
+      fi
+      ;;
+    claude)
+      if [[ "$action" == "install" ]]; then
+        install_skill "$claude_root"
+        echo "Restart Claude Code if it does not appear in the slash menu."
+      else
+        uninstall_skill "$claude_root"
+        echo "Restart Claude Code if the removed skill still appears."
+      fi
+      ;;
+    both)
+      run_for_target codex "$action"
+      run_for_target claude "$action"
+      ;;
+    -h|--help|help)
+      usage
+      ;;
+    *)
+      usage >&2
+      exit 2
+      ;;
+  esac
+}
+
 case "$TARGET" in
-  codex)
-    install_skill "${CODEX_HOME:-$HOME/.codex}/skills"
-    echo "Restart Codex to pick up the new skill."
-    ;;
-  claude)
-    install_skill "$HOME/.claude/skills"
-    echo "Restart Claude Code if it does not appear in the slash menu."
-    ;;
-  both)
-    install_skill "${CODEX_HOME:-$HOME/.codex}/skills"
-    install_skill "$HOME/.claude/skills"
-    echo "Restart Codex and Claude Code if needed."
-    ;;
-  -h|--help|help)
-    usage
+  codex|claude|both|-h|--help|help)
+    run_for_target "$TARGET" "$ACTION"
     ;;
   *)
     usage >&2
